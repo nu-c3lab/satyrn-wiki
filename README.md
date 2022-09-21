@@ -98,7 +98,4 @@ For instance, a properly formed Postman request for getting the sum of contribut
 
 
 
-
-### Sample ring
-
-To see a sample ring, 
+To see a sample ring and a sample site file, check the `sample_ring_folder/` in this repo.
