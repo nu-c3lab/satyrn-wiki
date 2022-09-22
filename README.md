@@ -480,4 +480,4 @@ TODO: what do we say about icon
 
 ## Putting it all together
 
-TODO: final thing about how it all comes together
+TODO: final thing about how it all comes together (deployment and the such; brief blurb about how each of the components interact, tho unclear if we need this since we kinda discussed it a bit in the intro)
