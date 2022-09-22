@@ -17,7 +17,7 @@ This repo will briefly walkthrough the three repos, with mostly an emphasis on h
 
 ## Setting up the API
 
-The API repo is [here](https://github.com/nu-c3lab/satyrn-api) and should be cloned into the whichever machine will be running the API. There is more in-depth documentation in that repo that details more about the inner workings of satyrn as well as how to set up the API. In this wiki we give a brief overview of the setup
+The API repo is [here](https://github.com/nu-c3lab/satyrn-api) and should be cloned into whichever machine will be running the API. There is more in-depth documentation in that repo that details more about the inner workings of satyrn as well as how to set up the API. In this wiki we give a brief overview of the setup
 
 ### Environment variables
 
