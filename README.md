@@ -86,7 +86,7 @@ For instance, a properly formed Postman request for getting the sum of contribut
 
 ## Setting up the UX
 
-The UX consists of two main parts: the client and the server. The client contains the front-facing code, meaning most of the things that the end user see, such as the notebooks themselves or the general platform UI. The server supports the client by providing it all the information that it needs, such as maintaining the user database system.
+The [UX](https://github.com/nu-c3lab/satyrn-ux) consists of two main parts: the client and the server. The client contains the front-facing code, meaning most of the things that the end user see, such as the notebooks themselves or the general platform UI. The server supports the client by providing it all the information that it needs, such as maintaining the user database system.
 
 The server and the client should be run on different terminals simultaneously.
 
@@ -188,7 +188,7 @@ SEED_ADMIN_PASSWORD=
 
 ## Setting up the Plan Manager
 
-TODO: go over this with andrew
+TODO: go over this with andrew. plan manager link [here](https://github.com/nu-c3lab/satyrn-PlanManager)
 
 
 ## Creating a `satyrn` ring
