@@ -1,25 +1,23 @@
-# satyrn-wiki
-Repo describing how to set up an instance of a satyrn application
+# Satyrn Wiki
+Repo describing how to set up an instance of a Satyrn application
 
 ## Overview of the needed repos and files
 
 A `satyrn` application instance contains code from three main repos:
-- `satyrn-api` is the analytical backbone and the backend of `satyrn`. It is a Flask application that is listening for API requests and hands back the needed information about a given request, such as what are the available entities for analysis, returning the results for a search, and returning the results for an analysis request.
+- `satyrn-api` is the analytical backbone and the backend of `satyrn`. It is a Flask application that is listening for api requests and hands back the needed information about a given request, such as what are the available entities for analysis, returning the results for a search, and returning the results for an analysis request.
 - `satyrn-ux` contains both the user-facing code (i.e. the front-end that displays notebooks, visually shows results, and shows analyses), and the code that handles the user-creation system (i.e. creating, storing, and maintaining the databases for users in the platform).
-- `satyrn-PlanManager` contains the logic for plan creations (i.e. based on a given ring that specifies the domain, creating the analytic plans that can be answered by satyrn about the domain). The `planManager` is a service that is leveraged by the `satyrn-ux` code (meaning it is an imported library that utilizes that code)
-
-Each of the repos can be set up independently; for instance, the `satyrn-api` repo can be set up by itself if you only want to have the capability of doing API calls to get analytics and search results as JSON objects. The `satyrn-ux` can also be set independently, though its capabilities will be limited to only the user database system without the ability to do API calls to `satyrn-api`.
+- `satyrn-PlanManager` is a separate JavaScript library imported by the satyrn-ux build and contains the logic for plan creations (i.e. based on a given ring that specifies the domain, creating the analytic plans that can be answered by satyrn about the domain) and results rendering.
 
 In addition to installing and running the above repos, we also require 
-- read access to the domain database via its location string
 - the creation of a `ring`: a json file that describes the semantics and the database of the domain at hand
+- read access to the domain database via its location string (which is entered into the `ring` json file)
 - the creation of a `site.json` file that contains a pointer to the `ring` as well as additional information on how to run the satyrn application
 
 This repo will briefly walkthrough the three repos, with mostly an emphasis on how to set up each of the repos for running the entire platform. We also provide a `ring` and `site.json` example along with the database that it is describing.
 
 ## Setting up the API
 
-The API repo is [here](https://github.com/nu-c3lab/satyrn-api) and should be cloned into whichever machine will be running the API. There is more in-depth documentation in that repo that details more about the inner workings of satyrn as well as how to set up the API. In this wiki we give a brief overview of the setup
+The API repo is [here](https://github.com/nu-c3lab/satyrn-api) and should be cloned into whichever machine will be running the API. There is more in-depth documentation in that repo that details more about the inner workings of satyrn as well as how to set up the API. In this wiki we give a brief overview of the setup.
 
 ### Environment variables
 
@@ -29,11 +27,11 @@ TODO: andrew check if there are extra things we wanna say about FLASK_ENV; also 
 
 ```
 FLASK_APP=core
-FLASK_ENV="development" # the environment setting 
+FLASK_ENV="development" # the environment setting, "development" or "production"
 SATYRN_CONFIG_VERSION=2 # the configuration version of satyrn. As we continue development, this would get upgraded
 
-API_KEY="thisisatestkey" # an API key for more secure API calls; can be any string but we recommend something stronger than the sample
-UX_SERVICE_KEY="anothertestkey" # another API key for the UX service; if none is given for this, it defaults to the API_KEY
+API_KEY="thisisatestkey" # an API key for incoming API calls; can be any string but we recommend something stronger than the sample
+UX_SERVICE_KEY="anothertestkey" # an API key for calls to the UX service to load rings (set in UX service env vars); if none is given for this, it defaults to the same value as API_KEY
 SATYRN_SECRET_KEY= 'sample secret key value' # Generate a good key with secrets.token_urlsafe()
 SATYRN_SECURITY_SALT='sample security salt' # Generate a good salt with secrets.SystemRandom().getrandbits(128)
 
@@ -98,32 +96,48 @@ The server will be a Node.js application that will utilize a Postgres database t
 
 #### Database
 
-For local development make sure to have a Postgres instance up and running.
+For local development make sure to have a Postgres instance up and running. For production, a deployed database server will be necessary.
 https://www.codecademy.com/article/installing-and-using-postgresql-locally
 
-#### Environment variables
+#### Environment variables for Server
 
-To set up the environment variables, create a file called `.env` and save it in `./server/` (i.e. the file path is `./server/.env`).
+To set up the environment variables for the server, create a file called `.env` and save it in `./server/` (i.e. the file path is `./server/.env`).
 These are the needed environment variables to be set up for the system. More information on these can be seen in the `env.example` file in the repo.
 
-TODO: Fill in these
 ```
-UX_SERVER_PORT=
-DB_USERNAME=
-DB_PASSWORD=
-DB_NAME=
-DB_HOST=
-DB_DIALECT=
-DB_PORT=
-JWT_SECRET=
-JWT_EXP=
-CORE_API_KEY=
-CORE_API_ENDPOINT=
-SENDGRID_API_KEY=
-SENDGRID_FROM_SENDER=
-UX_CLIENT_URL=
-RATE_LIMITER_MAX_REQUESTS=
-RATE_LIMITER_TIME_WINDOW=
+
+# details for whatever database you plan to house the user/asset system in
+DB_USERNAME=examplename
+DB_PASSWORD=examplepassword
+DB_NAME=satyrn-ux-local
+DB_HOST=localhost
+DB_DIALECT=postgres
+DB_PORT=5432
+DB_SSL=false
+
+# details for the JSON web token security later
+JWT_SECRET=1234 # a random secret string, your choice
+JWT_EXP=1d # how long the jwt stays valid
+
+# details for connecting to the core API (API key must match what was entered in the `satyrn-api` env vars)
+CORE_API_KEY=sIXOzihpQOePxmOheWeOsw26slDwiqsqN4v2dv30M
+CORE_API_ENDPOINT=http://localhost:5001/api
+
+# to support sending emails (user registration, password reset, etc), you have to sign up for a free-tier account at Sendgrid and provide details here
+SENDGRID_API_KEY=<Sendgrid account api key>
+SENDGRID_FROM_SENDER=<sender email registred at Sendgrid)
+
+# details about running this service 
+UX_SERVER_PORT=8080
+STAGE=local
+SEED_ADMIN_PASSWORD=1234
+RATE_LIMIT_MAX_REQUESTS=1000
+RATE_LIMIT_TIME_WINDOW_MS=900000
+
+# details about where the associated client is running (see below)
+UX_CLIENT_URL=http://localhost:3000
+
+
 ```
 
 #### Running
@@ -144,11 +158,8 @@ The client will be a Node.js application that will be making calls to the server
 To set up the environment variables, create a file called `.env` and save it in `./client/` (i.e. the file path is `./client/.env`).
 These are the needed environment variables to be set up for the system. More information on these can be seen in the `env.example` file in the repo.
 
-TODO: fill in these
 ```
 ## CLIENT
-PORT=80
-INLINE_RUNTIME_CHUNK=false
 REACT_APP_VERSION=$npm_package_version
 REACT_APP_NAME=$npm_package_name
 ```
@@ -236,7 +247,6 @@ The high-level keys are mostly metadata that help contextualize the `ring`:
 - `createdAt`: 
 - `updatedAt`: 
 
-TODO: are the createdAt and updatedAt created automatically?
 TODO: blurbs for id and userId
 
 The bulk of the information utilized by the `api` and `planManager` are in the `dataSource` and `ontology` keys.
@@ -479,3 +489,7 @@ The `site.json` file describes some metadata about the `satyrn` site application
 - `rings`: a list of file paths to the rings that are to be utilized in the site. This allows for a single `satyrn` site to contain multiple rings available for analysis
 
 TODO: what do we say about icon
+
+## Putting it all together
+
+TODO: final thing about how it all comes together (deployment and the such; brief blurb about how each of the components interact, tho unclear if we need this since we kinda discussed it a bit in the intro)
