@@ -4,9 +4,11 @@ Repo describing how to set up an instance of a satyrn application
 ## Overview of the needed repos and files
 
 A `satyrn` application instance contains code from three main repos:
-- `satyrn-api` is the analytical backbone and the backend of `satyrn`. It is a Flask application that is listening for api requests and hands back the needed information about a given request, such as what are the available entities for analysis, returning the results for a search, and returning the results for an analysis request.
+- `satyrn-api` is the analytical backbone and the backend of `satyrn`. It is a Flask application that is listening for API requests and hands back the needed information about a given request, such as what are the available entities for analysis, returning the results for a search, and returning the results for an analysis request.
 - `satyrn-ux` contains both the user-facing code (i.e. the front-end that displays notebooks, visually shows results, and shows analyses), and the code that handles the user-creation system (i.e. creating, storing, and maintaining the databases for users in the platform).
-- `satyrn-PlanManager` contains the logic for plan creations (i.e. based on a given ring that specifies the domain, creating the analytic plans that can be answered by satyrn about the domain).
+- `satyrn-PlanManager` contains the logic for plan creations (i.e. based on a given ring that specifies the domain, creating the analytic plans that can be answered by satyrn about the domain). The `planManager` is a service that is leveraged by the `satyrn-ux` code (meaning it is an imported library that utilizes that code)
+
+Each of the repos can be set up independently; for instance, the `satyrn-api` repo can be set up by itself if you only want to have the capability of doing API calls to get analytics and search results as JSON objects. The `satyrn-ux` can also be set independently, though its capabilities will be limited to only the user database system without the ability to do API calls to `satyrn-api`.
 
 In addition to installing and running the above repos, we also require 
 - read access to the domain database via its location string
@@ -477,7 +479,3 @@ The `site.json` file describes some metadata about the `satyrn` site application
 - `rings`: a list of file paths to the rings that are to be utilized in the site. This allows for a single `satyrn` site to contain multiple rings available for analysis
 
 TODO: what do we say about icon
-
-## Putting it all together
-
-TODO: final thing about how it all comes together (deployment and the such; brief blurb about how each of the components interact, tho unclear if we need this since we kinda discussed it a bit in the intro)
