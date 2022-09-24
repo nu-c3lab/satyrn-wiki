@@ -370,7 +370,24 @@ An entity contains the following keys:
 - `reference`: the human-readable way of referencing this entity. Anything within the format `${attributeName}` will be referencing an attribute of that entity (e.g.,in that case it will expect an attribute called "attributeName"). Anything outside `${}` will be rendered as is
 - `attributes`: a dictionary of attributes for that entity
 
-TODO: donna add any modifications needed for the renderable bit
+In some cases an entity might be a renderable object (i.e. it can be displayed as an HTML or text. For example: 
+```
+{
+	"name": "Case",
+	"table": "cases",
+	"id": "ucid",
+	"idType": "string",
+	"renderable": true,
+	"renderAs":{"attribute": "caseHTML", "type": "html"},
+	"reference": "${ucid}",
+	"attributes": {...}
+}
+```
+In such cases, the value of `renderable` will be set to `True`, and we would add the key `renderAs`.
+- 'renderAs': Is a dictionary containing two keys: 
+	- `attribute`: holds the name of the renderable attribute.
+	- `type`: What the entity should be rendered as (html, text, etc.)
+In this case, the attribute caseHTML of the Case entity will be rendered as an html file. 
 
 ##### `attributes`
 
