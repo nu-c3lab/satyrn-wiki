@@ -384,10 +384,10 @@ In some cases an entity might be a renderable object (i.e. it can be displayed a
 }
 ```
 In such cases, the value of `renderable` will be set to `True`, and we would add the key `renderAs`.
-- 'renderAs': Is a dictionary containing two keys: 
+- `renderAs`: Is a dictionary containing two keys: 
 	- `attribute`: holds the name of the renderable attribute.
 	- `type`: What the entity should be rendered as (html, text, etc.)
-In this case, the attribute caseHTML of the Case entity will be rendered as an html file. 
+- In this case, the attribute caseHTML of the Case entity will be rendered as an html file. 
 
 ##### `attributes`
 
