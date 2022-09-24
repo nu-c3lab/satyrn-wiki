@@ -399,6 +399,7 @@ Attributes are among the most important building blocks of doing analyses in `sa
 - `source`: a dictionary detailing the data source of the attribute
 	- `table`: the table from which we can obtain this attribute (often it is the same as the `table` in the entity)
 	- `columns`: the a list of columns to obtain the attribute. Often, these are of length 1, but can be longer if we need multiple columns to assemble the attribute (e.g. a name could be composed of columns first_name, middle_name, last_name)
+	- `joins`: (optional) In some cases an attribute of an entity might be on a different table in the database. We would need to specify the name of the join that is between the two tables (the main table of the entity, and the table containing the attribute). 
 - `metadata`: additional metadata that details how `satyrn` is able to utilize this attribute in its searching and analytics capabilities
 	- `searchable`: whether we want to allow searching over this attribute
 	- `allowMultiple`: when searching, whether we allow multiple filters over this attribute (for instance, in a domain where one judicial case has many judges, we might want to serach for cases with judge 123 and judge 234)
@@ -408,7 +409,6 @@ Attributes are among the most important building blocks of doing analyses in `sa
 		- e.g., in the sample `ring` for Contribution, we can count Contributions goruped by their amount, where the different categories are less than or equal to 250, between 250 and 500, between 500 and 1000, and over 1000
 	- `autocomplete`: (optional, default false) whether we want to allow the UX to do autocompleting when searching over that attribute
 
-TODO: donna add things about multi-table entity for attributes on different tables
 TODO: double check search styles. rightn ow i think a bunch of them are just range?
 
 
